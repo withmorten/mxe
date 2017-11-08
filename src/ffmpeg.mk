@@ -8,9 +8,7 @@ $(PKG)_CHECKSUM := 5d8911fe6017d00c98a359d7c8e7818e48f2c0cc2c9086a986ea8cb4d478c
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://ffmpeg.org/releases/$($(PKG)_FILE)
-$(PKG)_DEPS     := gcc bzip2 gnutls lame libass libbluray libbs2b libcaca \
-                   libvpx opencore-amr opus sdl speex theora vidstab \
-                   vo-amrwbenc vorbis x264 xvidcore yasm zlib
+$(PKG)_DEPS     := gcc pthreads bzip2 opus yasm zlib
 
 # DO NOT ADD fdk-aac OR openssl SUPPORT.
 # Although they are free softwares, their licenses are not compatible with
@@ -37,31 +35,23 @@ define $(PKG)_BUILD
             --disable-static --enable-shared ) \
         --yasmexe='$(TARGET)-yasm' \
         --disable-debug \
-        --disable-pthreads \
-        --enable-w32threads \
+        --enable-memalign-hack \
+        --enable-pthreads \
+        --disable-w32threads \
         --disable-doc \
-        --enable-avresample \
+        --disable-programs \
         --enable-gpl \
         --enable-version3 \
         --extra-libs='-mconsole' \
-        --enable-avisynth \
-        --enable-gnutls \
-        --enable-libass \
-        --enable-libbluray \
-        --enable-libbs2b \
-        --enable-libcaca \
-        --enable-libmp3lame \
-        --enable-libopencore-amrnb \
-        --enable-libopencore-amrwb \
         --enable-libopus \
-        --enable-libspeex \
-        --enable-libtheora \
-        --enable-libvidstab \
-        --enable-libvo-amrwbenc \
-        --enable-libvorbis \
-        --enable-libvpx \
-        --enable-libx264 \
-        --enable-libxvid
+        --disable-avdevice \
+        --disable-swscale \
+        --disable-postproc \
+        --disable-avfilter \
+        --disable-encoders \
+        --disable-muxers \
+        --disable-devices \
+        --disable-filters
     $(MAKE) -C '$(1)' -j '$(JOBS)'
     $(MAKE) -C '$(1)' -j 1 install
 endef
