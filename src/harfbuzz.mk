@@ -4,16 +4,16 @@ PKG             := harfbuzz
 $(PKG)_WEBSITE  := https://wiki.freedesktop.org/www/Software/HarfBuzz/
 $(PKG)_DESCR    := HarfBuzz
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.6.3
-$(PKG)_CHECKSUM := e31eb367beb61a9399d2c78b51c225ab2b1cbd46f364f2d80d97bb422b44101a
+$(PKG)_VERSION  := 1.7.6
+$(PKG)_CHECKSUM := da7bed39134826cd51e57c29f1dfbe342ccedb4f4773b1c951ff05ff383e2e9b
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://www.freedesktop.org/software/$(PKG)/release/$($(PKG)_FILE)
-$(PKG)_DEPS     := gcc cairo freetype-bootstrap glib icu4c
+$(PKG)_DEPS     := cc cairo freetype-bootstrap glib icu4c
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://cgit.freedesktop.org/harfbuzz/refs/tags' | \
-    $(SED) -n "s,.*<a href='[^']*/tag/?id=[^0-9]*\\([0-9.]*\\)'.*,\\1,p" | \
+    $(SED) -n "s,.*<a href='[^']*/tag/?h=[^0-9]*\\([0-9.]*\\)'.*,\\1,p" | \
     $(SORT) -V | \
     tail -1
 endef

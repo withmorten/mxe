@@ -4,12 +4,12 @@ PKG             := curl
 $(PKG)_WEBSITE  := https://curl.haxx.se/libcurl/
 $(PKG)_DESCR    := cURL
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 7.56.1
-$(PKG)_CHECKSUM := 8eed282cf3a0158d567a0feaa3c4619e8e847970597b5a2c81879e8f0d1a39d1
+$(PKG)_VERSION  := 7.59.0
+$(PKG)_CHECKSUM := e44eaabdf916407585bf5c7939ff1161e6242b6b015d3f2f5b758b2a330461fc
 $(PKG)_SUBDIR   := curl-$($(PKG)_VERSION)
 $(PKG)_FILE     := curl-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://curl.haxx.se/download/$($(PKG)_FILE)
-$(PKG)_DEPS     := gcc gnutls libidn2 libssh2 pthreads
+$(PKG)_DEPS     := cc gnutls libidn2 libssh2 pthreads
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://curl.haxx.se/download/?C=M;O=D' | \

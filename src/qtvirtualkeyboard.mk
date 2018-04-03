@@ -5,11 +5,11 @@ $(PKG)_WEBSITE  := https://www.qt.io/
 $(PKG)_DESCR    := Qt
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION   = $(qtbase_VERSION)
-$(PKG)_CHECKSUM := e836ca0348b21df28635e541713726444abed7b53a0acf3358cc90532e64c6fc
+$(PKG)_CHECKSUM := 4319f90e68a571974d03f39507dde548971412e31f971081ca7eaf388187d52e
 $(PKG)_SUBDIR    = $(subst qtbase,qtvirtualkeyboard,$(qtbase_SUBDIR))
 $(PKG)_FILE      = $(subst qtbase,qtvirtualkeyboard,$(qtbase_FILE))
 $(PKG)_URL       = $(subst qtbase,qtvirtualkeyboard,$(qtbase_URL))
-$(PKG)_DEPS     := gcc qtbase qtdeclarative qtmultimedia qtquickcontrols qtsvg
+$(PKG)_DEPS     := cc qtbase qtdeclarative qtmultimedia qtquickcontrols qtsvg
 
 define $(PKG)_UPDATE
     echo $(qtbase_VERSION)

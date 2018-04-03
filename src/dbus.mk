@@ -3,16 +3,16 @@
 PKG             := dbus
 $(PKG)_WEBSITE  := https://dbus.freedesktop.org/
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 1.12.0
-$(PKG)_CHECKSUM := 39af0d9267391434b549c5c4adc001b735518c96f7630c3fe7162af1d13ef3c0
+$(PKG)_VERSION  := 1.13.2
+$(PKG)_CHECKSUM := 945deb349a7e2999184827c17351c1bf93c6395b9c3ade0c91cad42cb93435b1
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://$(PKG).freedesktop.org/releases/$(PKG)/$($(PKG)_FILE)
-$(PKG)_DEPS     := gcc expat
+$(PKG)_DEPS     := cc expat
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://cgit.freedesktop.org/dbus/dbus/refs/tags' | \
-    $(SED) -n "s,.*<a href='[^']*/tag/?id=dbus-\\([0-9][^']*\\)'.*,\\1,p" | \
+    $(SED) -n "s,.*<a href='[^']*/tag/?h=dbus-\\([0-9][^']*\\)'.*,\\1,p" | \
     $(SORT) -V | \
     tail -1
 endef

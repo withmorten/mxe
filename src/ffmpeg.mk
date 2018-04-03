@@ -3,12 +3,12 @@
 PKG             := ffmpeg
 $(PKG)_WEBSITE  := https://ffmpeg.org/
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 3.4
-$(PKG)_CHECKSUM := 5d8911fe6017d00c98a359d7c8e7818e48f2c0cc2c9086a986ea8cb4d478c85e
+$(PKG)_VERSION  := 3.4.2
+$(PKG)_CHECKSUM := eb0370bf223809b9ebb359fed5318f826ac038ce77933b3afd55ab1a0a21785a
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
 $(PKG)_URL      := https://ffmpeg.org/releases/$($(PKG)_FILE)
-$(PKG)_DEPS     := gcc pthreads bzip2 opus yasm zlib
+$(PKG)_DEPS     := cc pthreads bzip2 opus yasm zlib
 
 # DO NOT ADD fdk-aac OR openssl SUPPORT.
 # Although they are free softwares, their licenses are not compatible with
