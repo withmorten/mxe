@@ -44,6 +44,7 @@ define $(PKG)_BUILD
         --extra-libs='-mconsole' \
         --enable-libopus \
         --disable-avdevice \
+        --disable-swresample \
         --disable-swscale \
         --disable-postproc \
         --disable-avfilter \
