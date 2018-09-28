@@ -2,7 +2,7 @@
 #Author: Julien Michel <julien.michel@orfeo-toolbox.org>
 
 PKG             := openjpeg
-$(PKG)_WEBSITE  := http://www.openjpeg.org/
+$(PKG)_WEBSITE  := https://www.openjpeg.org/
 $(PKG)_DESCR    := OpenJPEG
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION  := 2.3.0
@@ -13,7 +13,8 @@ $(PKG)_DEPS     := cc lcms libpng tiff zlib
 define $(PKG)_BUILD
     # build and install the library
     cd '$(BUILD_DIR)' && $(TARGET)-cmake '$(SOURCE_DIR)' \
-        -DBUILD_TESTING=FALSE
+        -DBUILD_PKGCONFIG_FILES=ON \
+        -DBUILD_TESTING=OFF
     $(MAKE) -C '$(BUILD_DIR)' -j '$(JOBS)'
     $(MAKE) -C '$(BUILD_DIR)' -j 1 install
 endef
