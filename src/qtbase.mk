@@ -4,12 +4,14 @@ PKG             := qtbase
 $(PKG)_WEBSITE  := https://www.qt.io/
 $(PKG)_DESCR    := Qt
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 5.11.2
-$(PKG)_CHECKSUM := 6381e7c3468d5a1dcfe3683b29eeced192faa0f8a32434fec071a59b8bcd0107
+$(PKG)_VERSION  := 5.12.0
+$(PKG)_CHECKSUM := 5e03221d780e121aabd734896aab8f331e5d8c9d9b54f1eb04907d0818eaeecb
 $(PKG)_SUBDIR   := $(PKG)-everywhere-src-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-everywhere-src-$($(PKG)_VERSION).tar.xz
-$(PKG)_URL      := https://download.qt.io/official_releases/qt/5.11/$($(PKG)_VERSION)/submodules/$($(PKG)_FILE)
+$(PKG)_URL      := https://download.qt.io/official_releases/qt/5.12/$($(PKG)_VERSION)/submodules/$($(PKG)_FILE)
 $(PKG)_DEPS     := cc dbus fontconfig freetds freetype harfbuzz jpeg libmysqlclient libpng openssl pcre2 postgresql sqlite zlib
+$(PKG)_DEPS_$(BUILD) :=
+$(PKG)_TARGETS  := $(BUILD) $(MXE_TARGETS)
 
 define $(PKG)_UPDATE
     $(WGET) -q -O- https://download.qt.io/official_releases/qt/5.8/ | \
@@ -24,7 +26,7 @@ define $(PKG)_BUILD
     cd '$(1)' && \
         OPENSSL_LIBS="`'$(TARGET)-pkg-config' --libs-only-l openssl`" \
         PSQL_LIBS="-lpq -lsecur32 `'$(TARGET)-pkg-config' --libs-only-l openssl pthreads` -lws2_32" \
-        SYBASE_LIBS="-lsybdb `'$(TARGET)-pkg-config' --libs-only-l gnutls` -liconv -lws2_32" \
+        SYBASE_LIBS="-lsybdb `'$(TARGET)-pkg-config' --libs-only-l openssl` -liconv -lws2_32" \
         PKG_CONFIG="${TARGET}-pkg-config" \
         PKG_CONFIG_SYSROOT_DIR="/" \
         PKG_CONFIG_LIBDIR="$(PREFIX)/$(TARGET)/lib/pkgconfig" \
@@ -112,3 +114,25 @@ endef
 
 $(PKG)_BUILD_SHARED = $(subst -static ,-shared ,\
                       $($(PKG)_BUILD))
+
+define $(PKG)_BUILD_$(BUILD)
+    cd '$(BUILD_DIR)' && '$(SOURCE_DIR)/configure' \
+        -prefix '$(PREFIX)/$(TARGET)/qt5' \
+        -static \
+        -release \
+        -opensource \
+        -confirm-license \
+        -no-dbus \
+        -no-{eventfd,glib,icu,openssl} \
+        -no-sql-{db2,ibase,mysql,oci,odbc,psql,sqlite,sqlite2,tds} \
+        -no-use-gold-linker \
+        -nomake examples \
+        -nomake tests \
+        -make tools \
+        -continue \
+        -verbose
+    $(MAKE) -C '$(BUILD_DIR)' -j '$(JOBS)'
+    rm -rf '$(PREFIX)/$(TARGET)/qt5'
+    $(MAKE) -C '$(BUILD_DIR)' -j 1 install
+    ln -sf '$(PREFIX)/$(TARGET)/qt5/bin/qmake' '$(PREFIX)/bin/$(TARGET)'-qmake-qt5
+endef
